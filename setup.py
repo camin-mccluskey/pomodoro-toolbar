@@ -4,9 +4,9 @@ APP = ['pomodoro.py']
 DATA_FILES = []
 OPTIONS = {
     'argv_emulation': True,
-    'iconfile': 'icon.icns',
+    'iconfile': 'assets/icon.icns',
     'plist': {
-        'CFBundleShortVersionString': '0.2.0',
+        'CFBundleShortVersionString': '0.0.1',
         'LSUIElement': True,
     },
     'packages': ['rumps'],

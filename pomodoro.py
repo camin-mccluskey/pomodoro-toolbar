@@ -1,5 +1,6 @@
 import rumps
 
+
 class PomodoroApp(object):
     def __init__(self):
         self.config = {
@@ -9,7 +10,7 @@ class PomodoroApp(object):
             "continue": "Continue Timer",
             "stop": "Stop Timer",
             "break_message": "Time is up! Take a break :)",
-            "interval": 1500
+            "interval": 10
         }
         self.app = rumps.App(self.config["app_name"])
         self.timer = rumps.Timer(self.on_tick, 1)
@@ -26,15 +27,22 @@ class PomodoroApp(object):
 
     def on_tick(self, sender):
         time_left = sender.end - sender.count
-        mins = time_left // 60 if time_left >= 0 else time_left // 60 + 1
-        secs = time_left % 60 if time_left >= 0 else (-1 * time_left) % 60
-        if mins == 0 and time_left < 0:
-            rumps.notification(title=self.config["app_name"], subtitle=self.config["break_message"], message='')
-            self.stop_timer()
-            self.stop_button.set_callback(None)
-        else:
+        # mins = time_left // 60 if time_left >= 0 else time_left // 60 + 1
+        # secs = time_left % 60 if time_left >= 0 else (-1 * time_left) % 60
+        # if mins == 0 and time_left < 0:
+        #     rumps.notification(title=self.config["app_name"], subtitle=self.config["break_message"], message='')
+        #     self.stop_timer(sender)
+        #     self.stop_button.set_callback(None)
+        # else:
+        #     self.stop_button.set_callback(self.stop_timer)
+        #     self.app.title = '{:2d}:{:02d}'.format(mins, secs)
+        if time_left > 0:
             self.stop_button.set_callback(self.stop_timer)
-            self.app.title = '{:2d}:{:02d}'.format(mins, secs)
+            self.app.title = "{}".format(time_left)
+        else:
+            self.stop_timer(sender)
+            self.stop_button.set_callback(None)
+            rumps.notification(title=self.config["app_name"], subtitle=self.config["break_message"], message='')
         sender.count += 1
 
     def start_timer(self, sender):
